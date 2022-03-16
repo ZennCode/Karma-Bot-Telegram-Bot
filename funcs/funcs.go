@@ -2,10 +2,10 @@ package funcs
 
 import (
 	"database/sql"
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
+	"log"
 	errorino "zenncode/tgbot/error"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -22,8 +22,8 @@ func PlusEins(userID int64, username string, mgsID int64,serverID int64) {
 	errorino.CheckErr(err)
 	_, err = res.RowsAffected()
 	errorino.CheckErr(err)
-	//fmt.Println("Der Datenbank Eintrag Nr. " + strconv.Itoa(int(affect)) + " wurde aktualisiert")
-	fmt.Println("The user " + username + " has been updated. They now have " + strconv.Itoa(int(points_now)) + " Karma points")
+	//log.Println("Der Datenbank Eintrag Nr. " + strconv.Itoa(int(affect)) + " wurde aktualisiert")
+	log.Println("The user " + username + " has been updated. They now have " + strconv.Itoa(int(points_now)) + " Karma points")
 }
 
 func MinusEins(userID int64, username string,mgsID int64, serverID int64) {
@@ -37,8 +37,8 @@ func MinusEins(userID int64, username string,mgsID int64, serverID int64) {
 	errorino.CheckErr(err)
 	_, err = res.RowsAffected()
 	errorino.CheckErr(err)
-	//fmt.Println("Der Datenbank Eintrag Nr. " + strconv.Itoa(int(affect)) + " wurde aktualisiert")
-	fmt.Println("The user " + username + " has been updated. They now have " + strconv.Itoa(int(points_now)) + " Karma points")
+	//log.Println("Der Datenbank Eintrag Nr. " + strconv.Itoa(int(affect)) + " wurde aktualisiert")
+	log.Println("The user " + username + " has been updated. They now have " + strconv.Itoa(int(points_now)) + " Karma points")
 }
 
 func GetPoints(userID int64, username string, mgsID int64,serverID int64) (punkte int) {
@@ -52,7 +52,7 @@ func GetPoints(userID int64, username string, mgsID int64,serverID int64) (punkt
 	row := db.QueryRow(sqlStatement, userID)
 	switch err := row.Scan(&userID, &username, &points, &createDate, &name); err {
 		case sql.ErrNoRows:
-			fmt.Println("There is no account with the name:", username, "and the ID:", userID)
+			log.Println("There is no account with the name:", username, "and the ID:", userID)
 			AddNewUser(userID, username, mgsID,name,serverID)
 		case nil:
 		default:
@@ -72,16 +72,16 @@ func CheckIfUserExists(userID int64, username string, mgsID int64, name string,s
 	row := db.QueryRow(sqlStatement, userID)
 	switch err := row.Scan(&userID, &username, &points, &createDate, &name); err {
 		case sql.ErrNoRows:
-			fmt.Println("There is no account with the name:", username, "and the ID:", userID)
+			log.Println("There is no account with the name:", username, "and the ID:", userID)
 			AddNewUser(userID, username, mgsID,name, serverID)
 		case nil:
  			layout := "2006-01-02T15:04:05.000Z"
 			t, err := time.Parse(layout, createDate)
 			if err != nil {
-		    	fmt.Println(err)
+		    	log.Println(err)
 			}
 			NiceDate := t.Format("02.01.2006 15:04:05")
-			fmt.Println("userID:", userID, "Username:", username, "Points:", points, "Registerd:", NiceDate)
+			log.Println("userID:", userID, "Username:", username, "Points:", points, "Registerd:", NiceDate)
 		default:
 			panic(err)
 	}
@@ -97,7 +97,7 @@ func AddNewUser(userID int64,username string,mgsID int64, name string,serverID i
 	errorino.CheckErr(err)
 	id, err := res.LastInsertId()
 	errorino.CheckErr(err)
-	fmt.Println("The database entry for",username,"has been regisered to the ID:",id)
+	log.Println("The database entry for",username,"has been regisered to the ID:",id)
 	AddNewUser2(userID, username, mgsID)
 }
 
@@ -111,7 +111,7 @@ func AddNewUser2(userID int64,username string, mgsID int64,){
 	errorino.CheckErr(err)
 	id, err := res.LastInsertId()
 	errorino.CheckErr(err)
-	fmt.Println("The database entry for the last mention has been registered to the ID:",id)
+	log.Println("The database entry for the last mention has been registered to the ID:",id)
 }
 
 func UpdateLastMention(userID int64,MsgID int64, username string){
@@ -124,7 +124,7 @@ func UpdateLastMention(userID int64,MsgID int64, username string){
 	errorino.CheckErr(err)
 	_, err = res.RowsAffected()
 	errorino.CheckErr(err)
-	fmt.Println("The last Mention Message ID for",username, "has been updated to", MsgID)
+	log.Println("The last Mention Message ID for",username, "has been updated to", MsgID)
 }
 
 func UpdateUserName(userID int64,MsgID int64, username string,serverID int64){
@@ -137,7 +137,7 @@ func UpdateUserName(userID int64,MsgID int64, username string,serverID int64){
 	errorino.CheckErr(err)
 	_, err = res.RowsAffected()
 	errorino.CheckErr(err)
-	fmt.Println("The username for userID:",userID,"has been updated to", username)
+	log.Println("The username for userID:",userID,"has been updated to", username)
 }
 
 func UpdateName(userID int64,MsgID int64, username string, name string,serverID int64){
@@ -150,7 +150,7 @@ func UpdateName(userID int64,MsgID int64, username string, name string,serverID 
 	errorino.CheckErr(err)
 	_, err = res.RowsAffected()
 	errorino.CheckErr(err)
-	fmt.Println("The name for userID:",userID,"has been updated to", name)
+	log.Println("The name for userID:",userID,"has been updated to", name)
 }
 
 func CheckMention(UserID int64, username string, mgsID int64) int64 {
@@ -162,10 +162,10 @@ func CheckMention(UserID int64, username string, mgsID int64) int64 {
 	row := db.QueryRow(sqlStatement, UserID)
 	switch err := row.Scan(&UserID, &lastMention); err {
 		case sql.ErrNoRows:
-			fmt.Println("DB Mention Error", UserID)
+			log.Println("DB Mention Error", UserID)
 			AddNewUser2(UserID, username, mgsID)
 		case nil:
-			fmt.Println("userID:", UserID, "UserName:", username, "MessageID:", mgsID)
+			log.Println("userID:", UserID, "UserName:", username, "MessageID:", mgsID)
 		default:
 			panic(err)
 	}
@@ -187,7 +187,7 @@ func LeaderBoard(userID int64, username string,serverID int64) string {
 	for rows.Next()  {
 		err = rows.Scan(&userID, &username, &points, &createDate,&name)
 		errorino.CheckErr(err)
-		// fmt.Println(i, userID, username, points, createDate)
+		// log.Println(i, userID, username, points, createDate)
 		i2 += strconv.Itoa(int(userID))+ username+ strconv.Itoa(int(points))+ createDate+"\n"
 		i3 += strconv.Itoa(i)+". place, with " + strconv.Itoa(int(points)) + " Karma "+ name +"\n"
 		i += 1
