@@ -1,0 +1,7 @@
+DB_Browser_for_SQLite/
+Test/
+config.json
+foo.db
+go.sum
+tgbot
+tgbot.exe
