@@ -85,3 +85,5 @@ To list all commands in Telegram use the command:
 - Hank for translating to English
 - The GO Telegram API library https://github.com/go-telegram-bot-api/telegram-bot-api/v5
 - mattn for the GO SQLite3 library https://github.com/mattn/go-sqlite3
+
+
