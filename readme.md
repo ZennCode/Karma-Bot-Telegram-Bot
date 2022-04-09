@@ -37,14 +37,6 @@ If you don't know about Telegram Tokens, visit the official Telegram dokumentati
 
 ## Usage
 
-### First step
-
-After adding the bot to your group chat, you need to register that chat to the database.
-
-To do so, write the following command in the chat:
-```
-/add
-```
 ### How to start the bot
 
 On Windows:
@@ -57,6 +49,14 @@ On Linux:
 ./tgbot {No Param here}
 ```
 
+### First step
+
+After adding the bot to your group chat, you need to register that chat to the database.
+
+To do so, write the following command in the chat:
+```
+/add
+```
 ### Commands
 To upvote a post, reply to it with the command:
 ```
