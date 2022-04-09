@@ -19,7 +19,7 @@ First rename the following two files:
 
 `example_foo.db` to `foo.db`
 
-`example_config.json to config.json`
+`example_config.json` to `config.json`
 
 You have now a config.json file in the main directory that looks like:
 
