@@ -17,7 +17,7 @@ go build .
 
 First rename the following two files: 
 
-`example_foo.db to foo.db`
+`example_foo.db` to `foo.db`
 
 `example_config.json to config.json`
 
